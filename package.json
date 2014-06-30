@@ -1,0 +1,35 @@
+{
+  "name": "virtual-dom-stringify",
+  "version": "0.1.0",
+  "description": "Stringify virtual-dom trees into HTML.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test --recursive --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alexmingoia/virtual-dom-stringify.git"
+  },
+  "keywords": [
+    "virtual-dom",
+    "html",
+    "stringify",
+    "parse",
+    "vtree",
+    "vnode",
+    "vdom-virtualize"
+  ],
+  "author": "Alex Mingoia <talk@alexmingoia.com>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/alexmingoia/virtual-dom-stringify/issues"
+  },
+  "homepage": "https://github.com/alexmingoia/virtual-dom-stringify",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^1.20.1"
+  },
+  "dependencies": {
+    "vtree": "*"
+  }
+}
