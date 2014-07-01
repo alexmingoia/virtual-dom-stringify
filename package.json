@@ -30,6 +30,6 @@
     "mocha": "^1.20.1"
   },
   "dependencies": {
-    "vtree": "*"
+    "vtree": "0.0.4"
   }
 }
