@@ -21,6 +21,15 @@ describe('stringify()', function() {
     expect(html).to.equal('<div id="test"></div>');
   });
 
+  it('outputs "class" for "className" property', function() {
+    var vnode = new VirtualNode('div', {
+      className: "small"
+    });
+    var html = stringify(vnode);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<div class="small"></div>');
+  });
+
   it('serializes CSS for style attribute', function() {
     var vnode = new VirtualNode('div', {
       style: {
