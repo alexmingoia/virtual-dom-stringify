@@ -13,12 +13,13 @@ describe('stringify()', function() {
 
   it('serializes valid vnode.properties', function() {
     var vnode = new VirtualNode('div', {
-      id: "test",
-      invalid: "test"
+      'id': "test",
+      'class': "testClass",
+      'invalid': "test"
     });
     var html = stringify(vnode);
     expect(html).to.be.a('string');
-    expect(html).to.equal('<div id="test"></div>');
+    expect(html).to.equal('<div class="testClass" id="test"></div>');
   });
 
   it('outputs "class" for "className" property', function() {
