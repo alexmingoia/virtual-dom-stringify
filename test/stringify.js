@@ -2,6 +2,7 @@ var expect = require('expect.js');
 var stringify = require('..');
 var VirtualNode = require('vtree/vnode');
 var VirtualText = require('vtree/vtext');
+var svg = require('virtual-hyperscript/svg');
 
 describe('stringify()', function() {
   it('returns string', function() {
@@ -53,5 +54,25 @@ describe('stringify()', function() {
     var html = stringify(vnode);
     expect(html).to.be.a('string');
     expect(html).to.equal('<div><div id="2"><div>Test</div></div><div id="3"></div></div>');
+  });
+
+  it('serializes svg attributes', function() {
+    var vnode = svg('svg', {
+      viewBox: '0 0 24 24',
+      style: {
+        'pointer-events': 'none',
+        width: '24px',
+        height: '24px',
+        display: 'block'
+      }
+    }, [
+      svg('path', {
+        d: 'M3,18h18v-2H3V18z M3,13h18v-2H3V13z M3,6v2h18V6H3z'
+      })
+    ]);
+
+    var html = stringify(vnode);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<svg style="pointer-events: none; width: 24px; height: 24px; display: block;" viewBox="0 0 24 24"><path d="M3,18h18v-2H3V18z M3,13h18v-2H3V13z M3,6v2h18V6H3z"></path></svg>');
   });
 });
