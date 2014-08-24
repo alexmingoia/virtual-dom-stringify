@@ -1,8 +1,8 @@
 var expect = require('expect.js');
-var stringify = require('..');
 var VirtualNode = require('vtree/vnode');
 var VirtualText = require('vtree/vtext');
 var svg = require('virtual-hyperscript/svg');
+var stringify = require('..');
 
 describe('stringify()', function() {
   it('returns string', function() {

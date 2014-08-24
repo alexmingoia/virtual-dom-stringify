@@ -4,7 +4,7 @@
   "description": "Stringify virtual-dom trees into HTML.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test --recursive --reporter spec"
+    "test": "./node_modules/gulp/bin/gulp.js test"
   },
   "repository": {
     "type": "git",
@@ -26,8 +26,18 @@
   },
   "homepage": "https://github.com/alexmingoia/virtual-dom-stringify",
   "devDependencies": {
+    "browserify": "^5.10.1",
     "expect.js": "^0.3.1",
-    "mocha": "^1.20.1",
+    "gulp": "^3.8.7",
+    "gulp-clean": "^0.3.1",
+    "gulp-instrument": "^0.1.0",
+    "gulp-jshint": "^1.8.4",
+    "gulp-mocha-phantomjs": "^0.5.0",
+    "gulp-rename": "^1.2.0",
+    "jshint-stylish": "^0.4.0",
+    "phantomjs": "^1.9.7-15",
+    "vinyl-buffer": "0.0.0",
+    "vinyl-source-stream": "^0.1.1",
     "virtual-hyperscript": "^3.0.0"
   },
   "dependencies": {
