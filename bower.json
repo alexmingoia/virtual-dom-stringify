@@ -1,0 +1,29 @@
+{
+  "name": "virtual-dom-stringify",
+  "main": "index.js",
+  "version": "0.5.0",
+  "homepage": "https://github.com/alexmingoia/virtual-dom-stringify",
+  "authors": [
+    "Alex Mingoia <talk@alexmingoia.com>"
+  ],
+  "description": "Stringify virtual-dom trees into HTML.",
+  "keywords": [
+    "virtual-dom",
+    "vtree",
+    "stringify",
+    "html"
+  ],
+  "dependencies": {
+    "he": "^0.4.1",
+    "Matt-Esch/vtree": "0.0.4"
+  },
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}
