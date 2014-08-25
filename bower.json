@@ -14,8 +14,8 @@
     "html"
   ],
   "dependencies": {
-    "he": "^0.4.1",
-    "Matt-Esch/vtree": "0.0.4"
+    "he": "^0.5.0",
+    "Matt-Esch/vtree": "0.0.20"
   },
   "license": "BSD",
   "ignore": [
