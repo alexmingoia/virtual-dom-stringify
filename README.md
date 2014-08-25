@@ -9,8 +9,23 @@ virtual-dom tree use [vnode-virtualize][1].
 
 ## Installation
 
+Using [npm](https://npmjs.org/):
+
 ```sh
-npm install virtual-dom-stringify
+npm install --save virtual-dom-stringify
+```
+
+Using [bower](http://bower.io/):
+
+```sh
+bower install --save virtual-dom-stringify
+```
+
+Using browser script tag and global (UMD wrapper):
+
+```html
+// Available via window.mio
+<script src="dist/virtual-dom-stringify.js"></script>
 ```
 
 ## Usage

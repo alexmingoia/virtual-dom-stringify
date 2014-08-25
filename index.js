@@ -1,1 +1,6 @@
-module.exports = process.env.JSCOV ? require('./lib-cov/stringify') : require('./lib/stringify');
+console.log(process.env.JSCOV);
+if (process.env.JSCOV) {
+  module.exports = require('./lib-cov/stringify');
+} else {
+  module.exports = require('./lib/stringify');
+}

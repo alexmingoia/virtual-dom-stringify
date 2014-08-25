@@ -40,7 +40,7 @@ gulp.task('standalone', function() {
 gulp.task('browserify-tests', function() {
   var bundler = new Browserify();
   bundler.add('./test/stringify.js');
-  bundler.ignore('../lib-cov/stringify');
+  bundler.ignore('./lib-cov/stringify');
   return bundler.bundle()
     .pipe(source('tests.js'))
     .pipe(gulp.dest('dist'));
