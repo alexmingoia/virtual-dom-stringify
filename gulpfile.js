@@ -31,7 +31,7 @@ gulp.task('standalone', function() {
     standalone: 'vtreeStringify'
   });
   bundler.add('./lib/stringify.js');
-  bundler.ignore('../lib-cov/stringify');
+  bundler.exclude('./lib-cov/stringify');
   return bundler.bundle()
     .pipe(source('virtual-dom-stringify.js'))
     .pipe(gulp.dest('dist'));
@@ -40,13 +40,13 @@ gulp.task('standalone', function() {
 gulp.task('browserify-tests', function() {
   var bundler = new Browserify();
   bundler.add('./test/stringify.js');
-  bundler.ignore('./lib-cov/stringify');
+  bundler.exclude('./lib-cov/stringify');
   return bundler.bundle()
     .pipe(source('tests.js'))
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('test', ['browserify-tests'], function () {
+gulp.task('mocha-phantomjs', ['browserify-tests'], function() {
   return gulp.src('test/stringify.html')
     .pipe(mochaPhantomJS({
       mocha: {
@@ -56,6 +56,10 @@ gulp.task('test', ['browserify-tests'], function () {
         reporter: 'spec'
       }
     }));
+});
+
+gulp.task('test', ['mocha-phantomjs'], function () {
+  return gulp.src('dist/tests.js').pipe(clean());
 });
 
 gulp.task('jshint', function () {

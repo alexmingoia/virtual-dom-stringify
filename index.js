@@ -1,4 +1,3 @@
-console.log(process.env.JSCOV);
 if (process.env.JSCOV) {
   module.exports = require('./lib-cov/stringify');
 } else {
