@@ -1,8 +1,8 @@
 # virtual-dom-stringify
 
-[![Build Status](https://secure.travis-ci.org/alexmingoia/virtual-dom-stringify.png)](http://travis-ci.org/alexmingoia/virtual-dom-stringify) 
-[![NPM version](https://badge.fury.io/js/virtual-dom-stringify.png)](http://badge.fury.io/js/virtual-dom-stringify)
-[![Dependency Status](https://david-dm.org/alexmingoia/virtual-dom-stringify.png)](http://david-dm.org/alexmingoia/virtual-dom-stringify)
+[![Build Status](http://img.shields.io/travis/alexmingoia/virtual-dom-stringify.svg?style=flat)](http://travis-ci.org/alexmingoia/virtual-dom-stringify) 
+[![NPM version](http://img.shields.io/npm/v/virtual-dom-stringify.svg?style=flat)](https://npmjs.org/package/virtual-dom-stringify)
+[![Dependency Status](http://img.shields.io/david/alexmingoia/virtual-dom-stringify.svg?style=flat)](http://david-dm.org/alexmingoia/virtual-dom-stringify)
 
 Stringify [virtual-dom][0] trees into HTML. For parsing DOM nodes into a
 virtual-dom tree use [vnode-virtualize][1].
@@ -24,7 +24,7 @@ bower install --save virtual-dom-stringify
 Using browser script tag and global (UMD wrapper):
 
 ```html
-// Available via window.mio
+// Available via window.vtreeStringify
 <script src="dist/virtual-dom-stringify.js"></script>
 ```
 
