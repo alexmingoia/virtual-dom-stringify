@@ -34,11 +34,11 @@
     "gulp-jshint": "^1.8.4",
     "gulp-mocha-phantomjs": "^0.5.0",
     "gulp-rename": "^1.2.0",
-    "jshint-stylish": "^0.4.0",
+    "jshint-stylish": "^1.0.0",
     "phantomjs": "^1.9.7-15",
-    "vinyl-buffer": "0.0.0",
-    "vinyl-source-stream": "^0.1.1",
-    "virtual-hyperscript": "^3.0.0"
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0",
+    "virtual-hyperscript": "^4.5.0"
   },
   "dependencies": {
     "he": "^0.5.0",
