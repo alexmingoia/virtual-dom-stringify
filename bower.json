@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "he": "^0.5.0",
-    "Matt-Esch/vtree": "0.0.20"
+    "vtree": "git://github.com/Matt-Esch/vtree#v0.0.20"
   },
   "license": "BSD",
   "ignore": [
