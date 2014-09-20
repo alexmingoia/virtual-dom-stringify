@@ -93,6 +93,7 @@ module.exports = [
   "autoPlay",
   "cellPadding",
   "cellSpacing",
+  "charset",
   "checked",
   "class",
   "className",
