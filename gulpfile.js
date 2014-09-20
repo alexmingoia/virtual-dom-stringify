@@ -1,5 +1,4 @@
-var buffer = require('vinyl-buffer')
-  , Browserify = require('browserify')
+var Browserify = require('browserify')
   , clean = require('gulp-clean')
   , gulp = require('gulp')
   , instrument = require('gulp-instrument')
