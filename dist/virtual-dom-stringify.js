@@ -22,31 +22,34 @@ module.exports = function stringify (node, parent) {
   if (isVNode(node)) {
     html.push('<' + node.tagName);
 
-    for (var i=0, l=validProps.length; i<l; i++) {
-      var attrName = validProps[i];
+    for (var attrName in node.properties) {
       var prop = node.properties[attrName];
-      var attrVal = typeof prop === 'object' && attrName !== 'style'
-        ? prop.value
-        : prop;
+      var validProp = validProps[camelCase(attrName)];
+      var attrVal;
 
-      if (attrVal) {
-        // Set "class" attribute from "className" property.
-        if (attrName === 'className' && !node.properties['class']) {
-          attrName = 'class';
+      if (prop && validProp) {
+        attrName = validProp;
+
+        if (typeof prop === 'object' && attrName !== 'style') {
+          attrVal = prop.value;
+        } else {
+          attrVal = prop;
         }
 
-        // Special case for style. We need to iterate over all rules to create a
-        // hash of applied css properties.
-        if (attrName === 'style') {
-          var css = [];
-          for (var styleProp in attrVal) {
-            css.push(styleProp + ': ' + attrVal[styleProp] + ';');
+        if (attrVal) {
+          // Special case for style. We need to iterate over all rules to create a
+          // hash of applied css properties.
+          if (attrName === 'style') {
+            var css = [];
+            for (var styleProp in attrVal) {
+              css.push(styleProp + ': ' + attrVal[styleProp] + ';');
+            }
+            attributes.push(attrName + '="' + css.join(' ') + '"');
+          } else if (attrVal === "true" || attrVal === true) {
+            attributes.push(attrName);
+          } else {
+            attributes.push(attrName + '="' + encode(String(attrVal)) + '"');
           }
-          attributes.push(attrName + '="' + css.join(' ') + '"');
-        } else if (attrVal === "true" || attrVal === true) {
-          attributes.push(attrName);
-        } else {
-          attributes.push(attrName + '="' + encode(String(attrVal)) + '"');
         }
       }
     }
@@ -77,124 +80,131 @@ module.exports = function stringify (node, parent) {
   return html.join('');
 };
 
+function camelCase (str) {
+  return str.replace(/[\W_](\w)/g, function (match, p1) {
+    return p1.toUpperCase();
+  }).replace(/[\W_]/g, '');
+}
+
 },{"./attributes":2,"he":3,"vtree/is-vnode":4,"vtree/is-vtext":5}],2:[function(require,module,exports){
 /**
  * DOMNode property white list
  * Taken from https://github.com/Raynos/react/blob/dom-property-config/src/browser/ui/dom/DefaultDOMPropertyConfig.js
 */
 
-module.exports = [
-  "accept",
-  "accessKey",
-  "action",
-  "alt",
-  "async",
-  "autoComplete",
-  "autoPlay",
-  "cellPadding",
-  "cellSpacing",
-  "charset",
-  "checked",
-  "class",
-  "className",
-  "colSpan",
-  "content",
-  "contentEditable",
-  "controls",
-  "crossOrigin",
-  "data",
-  "defer",
-  "dir",
-  "download",
-  "draggable",
-  "encType",
-  "formNoValidate",
-  "href",
-  "hrefLang",
-  "htmlFor",
-  "httpEquiv",
-  "icon",
-  "id",
-  "label",
-  "lang",
-  "list",
-  "loop",
-  "max",
-  "mediaGroup",
-  "method",
-  "min",
-  "multiple",
-  "muted",
-  "name",
-  "noValidate",
-  "pattern",
-  "placeholder",
-  "poster",
-  "preload",
-  "radioGroup",
-  "readOnly",
-  "rel",
-  "required",
-  "rowSpan",
-  "sandbox",
-  "scope",
-  "scrollLeft",
-  "scrolling",
-  "scrollTop",
-  "selected",
-  "span",
-  "spellCheck",
-  "src",
-  "srcDoc",
-  "srcSet",
-  "start",
-  "step",
-  "style",
-  "tabIndex",
-  "target",
-  "title",
-  "type",
-  "value",
+module.exports = {
+  "accept": "accept",
+  "acceptCharset": "accept-charset",
+  "accessKey": "accesskey",
+  "action": "action",
+  "alt": "alt",
+  "async": "async",
+  "autoComplete": "autocomplete",
+  "autoPlay": "autoplay",
+  "cellPadding": "cellpadding",
+  "cellSpacing": "cellspacing",
+  "charset": "charset",
+  "checked": "checked",
+  "class": "class",
+  "className": "class",
+  "colSpan": "colspan",
+  "content": "content",
+  "contentEditable": "contenteditable",
+  "controls": "controls",
+  "crossOrigin": "crossorigin",
+  "data": "data",
+  "defer": "defer",
+  "dir": "dir",
+  "download": "download",
+  "draggable": "draggable",
+  "encType": "enctype",
+  "formNoValidate": "formnovalidate",
+  "href": "href",
+  "hrefLang": "hreflang",
+  "htmlFor": "htmlfor",
+  "httpEquiv": "http-equiv",
+  "icon": "icon",
+  "id": "id",
+  "label": "label",
+  "lang": "lang",
+  "list": "list",
+  "loop": "loop",
+  "max": "max",
+  "mediaGroup": "mediagroup",
+  "method": "method",
+  "min": "min",
+  "multiple": "multiple",
+  "muted": "muted",
+  "name": "name",
+  "noValidate": "novalidate",
+  "pattern": "pattern",
+  "placeholder": "placeholder",
+  "poster": "poster",
+  "preload": "preload",
+  "radioGroup": "radiogroup",
+  "readOnly": "readonly",
+  "rel": "rel",
+  "required": "required",
+  "rowSpan": "rowspan",
+  "sandbox": "sandbox",
+  "scope": "scope",
+  "scrollLeft": "scrollleft",
+  "scrolling": "scrolling",
+  "scrollTop": "scrolltop",
+  "selected": "selected",
+  "span": "span",
+  "spellCheck": "spellcheck",
+  "src": "src",
+  "srcDoc": "srcdoc",
+  "srcSet": "srcset",
+  "start": "start",
+  "step": "step",
+  "style": "style",
+  "tabIndex": "tabindex",
+  "target": "target",
+  "title": "title",
+  "type": "type",
+  "value": "value",
 
   // Non-standard Properties
-  "autoCapitalize",
-  "autoCorrect",
-  "property",
-  "attributes",
-  
+  "autoCapitalize": "autocapitalize",
+  "autoCorrect": "autocorrect",
+  "property": "property",
+  "attributes": "attributes",
+
   // SVG Properties
-  "cx",
-  "cy",
-  "d",
-  "dx",
-  "dy",
-  "fill",
-  "fx",
-  "fy",
-  "gradientTransform",
-  "gradientUnits",
-  "offset",
-  "points",
-  "r",
-  "rx",
-  "ry",
-  "spreadMethod",
-  "stopColor",
-  "stopOpacity",
-  "stroke",
-  "strokeLinecap",
-  "strokeWidth",
-  "textAnchor",
-  "transform",
-  "version",
-  "viewBox",
-  "x1",
-  "x2",
-  "x",
-  "y1",
-  "y2",
-  "y"
-];
+  "cx": "cx",
+  "cy": "cy",
+  "d": "d",
+  "dx": "dx",
+  "dy": "dy",
+  "fill": "fill",
+  "fx": "fx",
+  "fy": "fy",
+  "gradientTransform": "gradientTransform",
+  "gradientUnits": "gradientUnits",
+  "offset": "offset",
+  "points": "points",
+  "r": "r",
+  "rx": "rx",
+  "ry": "ry",
+  "spreadMethod": "spreadMethod",
+  "stopColor": "stop-color",
+  "stopOpacity": "stop-opacity",
+  "stroke": "stroke",
+  "strokeLinecap": "stroke-linecap",
+  "strokeWidth": "stroke-width",
+  "textAnchor": "text-anchor",
+  "transform": "transform",
+  "version": "version",
+  "viewBox": "viewBox",
+  "x1": "x1",
+  "x2": "x2",
+  "x": "x",
+  "y1": "y1",
+  "y2": "y2",
+  "y": "y"
+};
 
 },{}],3:[function(require,module,exports){
 (function (global){
