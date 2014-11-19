@@ -40,9 +40,24 @@ stringify(new VirtualNode('div'));
 
 ## API
 
-### stringify(node:VirtualNode)
+### stringify(node:VirtualNode, options:Object)
 
 Returns html string.
+
+### Options
+
+#### invalidAttributes
+
+Outputs invalid attributes. Default: `false`.
+
+#### validAttributes
+
+A whitelist of valid attributes consisting of a map where the keys are
+camelCased attribute names and the values are the HTML attribute names.
+
+### selfClosingTags
+
+A list of tag names that should be self closing.
 
 ## BSD Licensed
 

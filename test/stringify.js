@@ -87,7 +87,7 @@ describe('stringify()', function() {
     var vnode = new VirtualNode('br');
     var html = stringify(vnode);
     expect(html).to.be.a('string');
-    expect(html).to.equal('<br/>');
+    expect(html).to.equal('<br />');
   });
 
   it('does not encode script tag contents', function() {
@@ -117,5 +117,40 @@ describe('stringify()', function() {
     var html = stringify(vnode);
     expect(html).to.be.a('string');
     expect(html).to.equal('<svg viewBox="0 0 24 24" style="pointer-events: none; width: 24px; height: 24px; display: block;"><path d="M3,18h18v-2H3V18z M3,13h18v-2H3V13z M3,6v2h18V6H3z"></path></svg>');
+  });
+
+  describe('options.invalidAttributes', function () {
+    it('outputs invalid attributes', function () {
+      var vnode = new VirtualNode('div', { 'testAttribute': 'test' }, []);
+      var html = stringify(vnode, {
+        invalidAttributes: true
+      });
+      expect(html).to.be.a('string');
+      expect(html).to.equal('<div testAttribute="test"></div>');
+    });
+  });
+
+  describe('options.validAttributes', function () {
+    it('dictates which attributes are valid', function () {
+      var vnode = new VirtualNode('div', { 'testAttribute': 'test' }, []);
+      var html = stringify(vnode, {
+        validAttributes: {
+          'testAttribute': 'test-attribute'
+        }
+      });
+      expect(html).to.be.a('string');
+      expect(html).to.equal('<div test-attribute="test"></div>');
+    });
+  });
+
+  describe('options.selfClosingTags', function () {
+    it('dictates which tags should be self-closing', function () {
+      var vnode = new VirtualNode('div', null, []);
+      var html = stringify(vnode, {
+        selfClosingTags: ['div']
+      });
+      expect(html).to.be.a('string');
+      expect(html).to.equal('<div />');
+    });
   });
 });
