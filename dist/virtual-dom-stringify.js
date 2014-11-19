@@ -3,6 +3,7 @@ var encode = require('he').encode;
 var isVNode = require('vtree/is-vnode');
 var isVText = require('vtree/is-vtext');
 var validProps = require('./attributes');
+var selfClosingTags = ['br'];
 
 /**
  * Stringify given virtual dom tree and return html.
@@ -58,16 +59,20 @@ module.exports = function stringify (node, parent) {
       html.push(' ' + attributes.join(' '));
     }
 
-    html.push('>');
+    if (~selfClosingTags.indexOf(node.tagName.toLowerCase())) {
+      html.push('/>');
+    } else {
+      html.push('>');
 
-    if (node.children && node.children.length) {
-      for (var i=0, l=node.children.length; i<l; i++) {
-        var child = node.children[i];
-        html.push(stringify(child, node));
+      if (node.children && node.children.length) {
+        for (var i=0, l=node.children.length; i<l; i++) {
+          var child = node.children[i];
+          html.push(stringify(child, node));
+        }
       }
-    }
 
-    html.push('</' + node.tagName + '>');
+      html.push('</' + node.tagName + '>');
+    }
   }
   else if (isVText(node)) {
     if (parent && parent.tagName === 'script') {

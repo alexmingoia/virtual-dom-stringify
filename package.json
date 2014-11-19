@@ -1,6 +1,6 @@
 {
   "name": "virtual-dom-stringify",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Stringify virtual-dom trees into HTML.",
   "main": "index.js",
   "scripts": {
