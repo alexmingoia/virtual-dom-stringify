@@ -2,31 +2,49 @@
 var encode = require('he').encode;
 var isVNode = require('vtree/is-vnode');
 var isVText = require('vtree/is-vtext');
-var validProps = require('./attributes');
-var selfClosingTags = ['br'];
+var validAttributes = require('./attributes');
+var selfClosingTags = require('./self-closing-tags');
 
 /**
  * Stringify given virtual dom tree and return html.
  *
  * @param {VirtualNode} node
  * @param {VirtualNode?} parent
+ * @param {Object=} options
+ * @param {Array} options.selfClosingTags array of self-closing tag names
+ * @param {Object} options.validAttributes map of valid attribute names where
+ * keys are camelCased attribute name and values are HTML attribute name.
+ * @param {Boolean=false} options.invalidAttributes output invalid attributes
  * @return {String}
  * @api public
  */
 
-module.exports = function stringify (node, parent) {
+module.exports = function stringify (node, parent, options) {
   if (!node) return "";
 
   var attributes = [];
   var html = [];
+
+  if (arguments.length === 2 && typeof parent === 'object' && !parent.tagName) {
+    options = parent;
+    parent = null;
+  }
+
+  options = options || {};
+  options.selfClosingTags = (options.selfClosingTags || selfClosingTags);
+  options.validAttributes = (options.validAttributes || validAttributes);
 
   if (isVNode(node)) {
     html.push('<' + node.tagName);
 
     for (var attrName in node.properties) {
       var prop = node.properties[attrName];
-      var validProp = validProps[camelCase(attrName)];
+      var validProp = options.validAttributes[camelCase(attrName)];
       var attrVal;
+
+      if (!validProp && options.invalidAttributes) {
+        validProp = attrName;
+      }
 
       if (prop && validProp) {
         attrName = validProp;
@@ -59,8 +77,8 @@ module.exports = function stringify (node, parent) {
       html.push(' ' + attributes.join(' '));
     }
 
-    if (~selfClosingTags.indexOf(node.tagName.toLowerCase())) {
-      html.push('/>');
+    if (~options.selfClosingTags.indexOf(node.tagName.toLowerCase())) {
+      html.push(' />');
     } else {
       html.push('>');
 
@@ -91,7 +109,7 @@ function camelCase (str) {
   }).replace(/[\W_]/g, '');
 }
 
-},{"./attributes":2,"he":3,"vtree/is-vnode":4,"vtree/is-vtext":5}],2:[function(require,module,exports){
+},{"./attributes":2,"./self-closing-tags":3,"he":4,"vtree/is-vnode":5,"vtree/is-vtext":6}],2:[function(require,module,exports){
 /**
  * DOMNode property white list
  * Taken from https://github.com/Raynos/react/blob/dom-property-config/src/browser/ui/dom/DefaultDOMPropertyConfig.js
@@ -212,6 +230,26 @@ module.exports = {
 };
 
 },{}],3:[function(require,module,exports){
+module.exports = [
+  'area',
+  'base',
+  'br',
+  'col',
+  'command',
+  'embed',
+  'hr',
+  'img',
+  'input',
+  'keygen',
+  'link',
+  'meta',
+  'param',
+  'source',
+  'track',
+  'wbr'
+];
+
+},{}],4:[function(require,module,exports){
 (function (global){
 /*! http://mths.be/he v0.5.0 by @mathias | MIT license */
 ;(function(root) {
@@ -544,7 +582,7 @@ module.exports = {
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -553,7 +591,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":6}],5:[function(require,module,exports){
+},{"./version":7}],6:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -562,7 +600,7 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":6}],6:[function(require,module,exports){
+},{"./version":7}],7:[function(require,module,exports){
 module.exports = "1"
 
 },{}]},{},[1])(1)
