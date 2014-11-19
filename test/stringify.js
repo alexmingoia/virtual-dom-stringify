@@ -83,6 +83,13 @@ describe('stringify()', function() {
     expect(html).to.equal('<div><div id="2"><div>Test</div></div><div id="3"></div></div>');
   });
 
+  it('serializes self closing tags', function () {
+    var vnode = new VirtualNode('br');
+    var html = stringify(vnode);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<br/>');
+  });
+
   it('does not encode script tag contents', function() {
     var vnode = new VirtualNode('div', null, [
       new VirtualNode('script', null, [new VirtualText('console.log("foobar");')])
