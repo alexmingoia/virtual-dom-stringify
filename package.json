@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "he": "^0.5.0",
+    "html-attributes": "^1.1.0",
+    "svg-attributes": "^1.0.0",
     "vtree": "0.0.21"
   }
 }
