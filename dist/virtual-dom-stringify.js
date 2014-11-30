@@ -2,7 +2,8 @@
 var encode = require('he').encode;
 var isVNode = require('vtree/is-vnode');
 var isVText = require('vtree/is-vtext');
-var validAttributes = require('./attributes');
+var htmlAttrs = require('html-attributes');
+var svgAttrs = require('svg-attributes');
 var selfClosingTags = require('./self-closing-tags');
 
 /**
@@ -32,7 +33,10 @@ module.exports = function stringify (node, parent, options) {
 
   options = options || {};
   options.selfClosingTags = (options.selfClosingTags || selfClosingTags);
-  options.validAttributes = (options.validAttributes || validAttributes);
+
+  if (!options.validAttributes) {
+    options.validAttributes = merge(htmlAttrs, svgAttrs);
+  }
 
   if (isVNode(node)) {
     html.push('<' + node.tagName);
@@ -47,7 +51,7 @@ module.exports = function stringify (node, parent, options) {
       }
 
       if (prop && validProp) {
-        attrName = validProp;
+        attrName = validProp || attrName;
 
         if (typeof prop === 'object' && attrName !== 'style') {
           attrVal = prop.value;
@@ -109,127 +113,14 @@ function camelCase (str) {
   }).replace(/[\W_]/g, '');
 }
 
-},{"./attributes":2,"./self-closing-tags":3,"he":4,"vtree/is-vnode":5,"vtree/is-vtext":6}],2:[function(require,module,exports){
-/**
- * DOMNode property white list
- * Taken from https://github.com/Raynos/react/blob/dom-property-config/src/browser/ui/dom/DefaultDOMPropertyConfig.js
-*/
-
-module.exports = {
-  "accept": "accept",
-  "acceptCharset": "accept-charset",
-  "accessKey": "accesskey",
-  "action": "action",
-  "alt": "alt",
-  "async": "async",
-  "autoComplete": "autocomplete",
-  "autoPlay": "autoplay",
-  "cellPadding": "cellpadding",
-  "cellSpacing": "cellspacing",
-  "charset": "charset",
-  "checked": "checked",
-  "class": "class",
-  "className": "class",
-  "colSpan": "colspan",
-  "content": "content",
-  "contentEditable": "contenteditable",
-  "controls": "controls",
-  "crossOrigin": "crossorigin",
-  "data": "data",
-  "defer": "defer",
-  "dir": "dir",
-  "download": "download",
-  "draggable": "draggable",
-  "encType": "enctype",
-  "formNoValidate": "formnovalidate",
-  "href": "href",
-  "hrefLang": "hreflang",
-  "htmlFor": "htmlfor",
-  "httpEquiv": "http-equiv",
-  "icon": "icon",
-  "id": "id",
-  "label": "label",
-  "lang": "lang",
-  "list": "list",
-  "loop": "loop",
-  "max": "max",
-  "mediaGroup": "mediagroup",
-  "method": "method",
-  "min": "min",
-  "multiple": "multiple",
-  "muted": "muted",
-  "name": "name",
-  "noValidate": "novalidate",
-  "pattern": "pattern",
-  "placeholder": "placeholder",
-  "poster": "poster",
-  "preload": "preload",
-  "radioGroup": "radiogroup",
-  "readOnly": "readonly",
-  "rel": "rel",
-  "required": "required",
-  "rowSpan": "rowspan",
-  "sandbox": "sandbox",
-  "scope": "scope",
-  "scrollLeft": "scrollleft",
-  "scrolling": "scrolling",
-  "scrollTop": "scrolltop",
-  "selected": "selected",
-  "span": "span",
-  "spellCheck": "spellcheck",
-  "src": "src",
-  "srcDoc": "srcdoc",
-  "srcSet": "srcset",
-  "start": "start",
-  "step": "step",
-  "style": "style",
-  "tabIndex": "tabindex",
-  "target": "target",
-  "title": "title",
-  "type": "type",
-  "value": "value",
-
-  // Non-standard Properties
-  "autoCapitalize": "autocapitalize",
-  "autoCorrect": "autocorrect",
-  "property": "property",
-  "attributes": "attributes",
-
-  // SVG Properties
-  "cx": "cx",
-  "cy": "cy",
-  "d": "d",
-  "dx": "dx",
-  "dy": "dy",
-  "fill": "fill",
-  "fx": "fx",
-  "fy": "fy",
-  "gradientTransform": "gradientTransform",
-  "gradientUnits": "gradientUnits",
-  "offset": "offset",
-  "points": "points",
-  "r": "r",
-  "rx": "rx",
-  "ry": "ry",
-  "spreadMethod": "spreadMethod",
-  "stopColor": "stop-color",
-  "stopOpacity": "stop-opacity",
-  "stroke": "stroke",
-  "strokeLinecap": "stroke-linecap",
-  "strokeWidth": "stroke-width",
-  "textAnchor": "text-anchor",
-  "transform": "transform",
-  "version": "version",
-  "viewBox": "viewBox",
-  "x1": "x1",
-  "x2": "x2",
-  "x": "x",
-  "y1": "y1",
-  "y2": "y2",
-  "y": "y"
+function merge (a, b) {
+  for (var key in b) {
+    a[key] = b[key];
+  }
+  return a;
 };
 
-},{}],3:[function(require,module,exports){
+},{"./self-closing-tags":2,"he":3,"html-attributes":4,"svg-attributes":5,"vtree/is-vnode":6,"vtree/is-vtext":7}],2:[function(require,module,exports){
 module.exports = [
   'area',
   'base',
@@ -249,7 +140,7 @@ module.exports = [
   'wbr'
 ];
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 (function (global){
 /*! http://mths.be/he v0.5.0 by @mathias | MIT license */
 ;(function(root) {
@@ -582,7 +473,425 @@ module.exports = [
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],4:[function(require,module,exports){
+/*!
+ * html-attributes
+ * https://github.com/alexmingoia/html-attributes
+ */
+
+'use strict';
+
+/**
+ * @module html-attributes
+ */
+
+module.exports = {
+  "abbr": "abbr",
+  "accept": "accept",
+  "acceptCharset": "accept-charset",
+  "accessKey": "accesskey",
+  "action": "action",
+  "allowFullScreen": "allowfullscreen",
+  "allowTransparency": "allowtransparency",
+  "alt": "alt",
+  "async": "async",
+  "autoComplete": "autocomplete",
+  "autoFocus": "autofocus",
+  "autoPlay": "autoplay",
+  "cellPadding": "cellpadding",
+  "cellSpacing": "cellspacing",
+  "challenge": "challenge",
+  "charset": "charset",
+  "checked": "checked",
+  "cite": "cite",
+  "class": "class",
+  "className": "class",
+  "cols": "cols",
+  "colSpan": "colspan",
+  "command": "command",
+  "content": "content",
+  "contentEditable": "contenteditable",
+  "contextMenu": "contextmenu",
+  "controls": "controls",
+  "coords": "coords",
+  "crossOrigin": "crossorigin",
+  "data": "data",
+  "dateTime": "datetime",
+  "default": "default",
+  "defer": "defer",
+  "dir": "dir",
+  "disabled": "disabled",
+  "download": "download",
+  "draggable": "draggable",
+  "dropzone": "dropzone",
+  "encType": "enctype",
+  "for": "for",
+  "form": "form",
+  "formAction": "formaction",
+  "formEncType": "formenctype",
+  "formMethod": "formmethod",
+  "formNoValidate": "formnovalidate",
+  "formTarget": "formtarget",
+  "frameBorder": "frameBorder",
+  "headers": "headers",
+  "height": "height",
+  "hidden": "hidden",
+  "high": "high",
+  "href": "href",
+  "hrefLang": "hreflang",
+  "htmlFor": "for",
+  "httpEquiv": "http-equiv",
+  "icon": "icon",
+  "id": "id",
+  "inputMode": "inputmode",
+  "isMap": "ismap",
+  "itemId": "itemid",
+  "itemProp": "itemprop",
+  "itemRef": "itemref",
+  "itemScope": "itemscope",
+  "itemType": "itemtype",
+  "kind": "kind",
+  "label": "label",
+  "lang": "lang",
+  "list": "list",
+  "loop": "loop",
+  "manifest": "manifest",
+  "max": "max",
+  "maxLength": "maxlength",
+  "media": "media",
+  "mediaGroup": "mediagroup",
+  "method": "method",
+  "min": "min",
+  "minLength": "minlength",
+  "multiple": "multiple",
+  "muted": "muted",
+  "name": "name",
+  "noValidate": "novalidate",
+  "open": "open",
+  "optimum": "optimum",
+  "pattern": "pattern",
+  "ping": "ping",
+  "placeholder": "placeholder",
+  "poster": "poster",
+  "preload": "preload",
+  "radioGroup": "radiogroup",
+  "readOnly": "readonly",
+  "rel": "rel",
+  "required": "required",
+  "role": "role",
+  "rows": "rows",
+  "rowSpan": "rowspan",
+  "sandbox": "sandbox",
+  "scope": "scope",
+  "scoped": "scoped",
+  "scrolling": "scrolling",
+  "seamless": "seamless",
+  "selected": "selected",
+  "shape": "shape",
+  "size": "size",
+  "sizes": "sizes",
+  "sortable": "sortable",
+  "span": "span",
+  "spellCheck": "spellcheck",
+  "src": "src",
+  "srcDoc": "srcdoc",
+  "srcSet": "srcset",
+  "start": "start",
+  "step": "step",
+  "style": "style",
+  "tabIndex": "tabindex",
+  "target": "target",
+  "title": "title",
+  "translate": "translate",
+  "type": "type",
+  "typeMustMatch": "typemustmatch",
+  "useMap": "usemap",
+  "value": "value",
+  "width": "width",
+  "wmode": "wmode",
+  "wrap": "wrap"
+};
+
 },{}],5:[function(require,module,exports){
+/*!
+ * svg-attributes
+ * https://github.com/alexmingoia/svg-attributes
+ */
+
+'use strict';
+
+/**
+ * @module svg-attributes
+ */
+
+module.exports = {
+  /**
+   * Regular attributes
+   */
+  "accentHeight": "accent-height",
+  "accumulate": "accumulate",
+  "additive": "additive",
+  "alphabetic": "alphabetic",
+  "amplitude": "amplitude",
+  "arabicForm": "arabic-form",
+  "ascent": "ascent",
+  "attributeName": "attributeName",
+  "attributeType": "attributeType",
+  "azimuth": "azimuth",
+  "baseFrequency": "baseFrequency",
+  "baseProfile": "baseProfile",
+  "bbox": "bbox",
+  "begin": "begin",
+  "bias": "bias",
+  "by": "by",
+  "calcMode": "calcMode",
+  "capHeight": "cap-height",
+  "class": "class",
+  "clipPathUnits": "clipPathUnits",
+  "contentScriptType": "contentScriptType",
+  "contentStyleType": "contentStyleType",
+  "cx": "cx",
+  "cy": "cy",
+  "d": "d",
+  "descent": "descent",
+  "diffuseConstant": "diffuseConstant",
+  "divisor": "divisor",
+  "dur": "dur",
+  "dx": "dx",
+  "dy": "dy",
+  "edgeMode": "edgeMode",
+  "elevation": "elevation",
+  "end": "end",
+  "exponent": "exponent",
+  "externalResourcesRequired": "externalResourcesRequired",
+  "fill": "fill",
+  "filterRes": "filterRes",
+  "filterUnits": "filterUnits",
+  "fontFamily": "font-family",
+  "fontSize": "font-size",
+  "fontStretch": "font-stretch",
+  "fontStyle": "font-style",
+  "format": "format",
+  "from": "from",
+  "fx": "fx",
+  "fy": "fy",
+  "g1": "g1",
+  "g2": "g2",
+  "glyphame": "glyph-name",
+  "glyphRef": "glyphRef",
+  "gradientTransform": "gradientTransform",
+  "gradientUnits": "gradientUnits",
+  "hanging": "hanging",
+  "height": "height",
+  "horizAdvX": "horiz-adv-x",
+  "horizOriginX": "horiz-origin-x",
+  "horizOriginY": "horiz-origin-y",
+  "id": "id",
+  "ideographic": "ideographic",
+  "in": "in",
+  "in2": "in2",
+  "intercept": "intercept",
+  "k": "k",
+  "k1": "k1",
+  "k2": "k2",
+  "k3": "k3",
+  "k4": "k4",
+  "kernelMatrix": "kernelMatrix",
+  "kernelUnitLength": "kernelUnitLength",
+  "keyPoints": "keyPoints",
+  "keySplines": "keySplines",
+  "keyTimes": "keyTimes",
+  "lang": "lang",
+  "lengthAdjust": "lengthAdjust",
+  "limitingConeAngle": "limitingConeAngle",
+  "local": "local",
+  "markerHeight": "markerHeight",
+  "markerUnits": "markerUnits",
+  "markerWidth": "markerWidth",
+  "maskContentUnits": "maskContentUnits",
+  "maskUnits": "maskUnits",
+  "mathematical": "mathematical",
+  "max": "max",
+  "media": "media",
+  "method": "method",
+  "min": "min",
+  "mode": "mode",
+  "name": "name",
+  "numOctaves": "numOctaves",
+  "offset": "offset",
+  "onAbort": "onabort",
+  "onActivate": "onactivate",
+  "onBegin": "onbegin",
+  "onClick": "onclick",
+  "onEnd": "onend",
+  "onError": "onerror",
+  "onFocusIn": "onfocusin",
+  "onFocusOut": "onfocusout",
+  "onLoad": "onload",
+  "onMouseDown": "onmousedown",
+  "onMouseMove": "onmousemove",
+  "onMouseOut": "onmouseout",
+  "onMouseOver": "onmouseover",
+  "onMouseUp": "onmouseup",
+  "onRepeat": "onrepeat",
+  "onResize": "onresize",
+  "onScroll": "onscroll",
+  "onUnload": "onunload",
+  "onZoom": "onzoom",
+  "operator": "operator",
+  "order": "order",
+  "orient": "orient",
+  "orientation": "orientation",
+  "origin": "origin",
+  "overlinePosition": "overline-position",
+  "overlineThickness": "overline-thickness",
+  "panose1": "panose-1",
+  "path": "path",
+  "pathLength": "pathLength",
+  "patternContentUnits": "patternContentUnits",
+  "patternTransform": "patternTransform",
+  "patternUnits": "patternUnits",
+  "points": "points",
+  "pointsAtX": "pointsAtX",
+  "pointsAtY": "pointsAtY",
+  "pointsAtZ": "pointsAtZ",
+  "preserveAlpha": "preserveAlpha",
+  "preserveAspectRatio": "preserveAspectRatio",
+  "primitiveUnits": "primitiveUnits",
+  "r": "r",
+  "radius": "radius",
+  "refX": "refX",
+  "refY": "refY",
+  "renderingIntent": "rendering-intent",
+  "repeatCount": "repeatCount",
+  "repeatDur": "repeatDur",
+  "requiredExtensions": "requiredExtensions",
+  "requiredFeatures": "requiredFeatures",
+  "restart": "restart",
+  "result": "result",
+  "rotate": "rotate",
+  "rx": "rx",
+  "ry": "ry",
+  "scale": "scale",
+  "seed": "seed",
+  "slope": "slope",
+  "spacing": "spacing",
+  "specularConstant": "specularConstant",
+  "specularExponent": "specularExponent",
+  "spreadMethod": "spreadMethod",
+  "startOffset": "startOffset",
+  "stdDeviation": "stdDeviation",
+  "stemh": "stemh",
+  "stemv": "stemv",
+  "stitchTiles": "stitchTiles",
+  "strikethroughPosition": "strikethrough-position",
+  "strikethroughThickness": "strikethrough-thickness",
+  "string": "string",
+  "style": "style",
+  "surfaceScale": "surfaceScale",
+  "systemLanguage": "systemLanguage",
+  "tableValues": "tableValues",
+  "target": "target",
+  "targetX": "targetX",
+  "targetY": "targetY",
+  "textLength": "textLength",
+  "title": "title",
+  "to": "to",
+  "transform": "transform",
+  "type": "type",
+  "u1": "u1",
+  "u2": "u2",
+  "underlinePosition": "underline-position",
+  "underlineThickness": "underline-thickness",
+  "unicode": "unicode",
+  "unicodeRange": "unicode-range",
+  "unitsPerEm": "units-per-em",
+  "vAlphabetic": "v-alphabetic",
+  "vHanging": "v-hanging",
+  "vIdeographic": "v-ideographic",
+  "vMathematical": "v-mathematical",
+  "values": "values",
+  "version": "version",
+  "vertAdvY": "vert-adv-y",
+  "vertOriginX": "vert-origin-x",
+  "vertOriginY": "vert-origin-y",
+  "viewBox": "viewBox",
+  "viewTarget": "viewTarget",
+  "width": "width",
+  "widths": "widths",
+  "x": "x",
+  "xHeight": "x-height",
+  "x1": "x1",
+  "x2": "x2",
+  "xChannelSelector": "xChannelSelector",
+  "xlink": "xlink",
+  "xml": "xml",
+  "y": "y",
+  "y1": "y1",
+  "y2": "y2",
+  "yChannelSelector": "yChannelSelector",
+  "z": "z",
+  "zoomAndPan": "zoomAndPan",
+  /**
+   * Presentation attributes
+   */
+  "alignmentBaseline": "alignment-baseline",
+  "baselineShift": "baseline-shift",
+  "clipPath": "clip-path",
+  "clipRule": "clip-rule",
+  "clip": "clip",
+  "colorInterpolationFilters": "color-interpolation-filters",
+  "colorInterpolation": "color-interpolation",
+  "colorProfile": "color-profile",
+  "colorRendering": "color-rendering",
+  "color": "color",
+  "cursor": "cursor",
+  "direction": "direction",
+  "display": "display",
+  "dominantBaseline": "dominant-baseline",
+  "enableBackground": "enable-background",
+  "fillOpacity": "fill-opacity",
+  "fillRule": "fill-rule",
+  "filter": "filter",
+  "floodColor": "flood-color",
+  "floodOpacity": "flood-opacity",
+  "fontSizeAdjust": "font-size-adjust",
+  "fontVariant": "font-variant",
+  "fontWeight": "font-weight",
+  "glyphOrientationHorizontal": "glyph-orientation-horizontal",
+  "glyphOrientationVertical": "glyph-orientation-vertical",
+  "imageRendering": "image-rendering",
+  "kerning": "kerning",
+  "letterSpacing": "letter-spacing",
+  "lightingColor": "lighting-color",
+  "markerEnd": "marker-end",
+  "markerMid": "marker-mid",
+  "markerStart": "marker-start",
+  "mask": "mask",
+  "opacity": "opacity",
+  "overflow": "overflow",
+  "pointerEvents": "pointer-events",
+  "shapeRendering": "shape-rendering",
+  "stopColor": "stop-color",
+  "stopOpacity": "stop-opacity",
+  "strokeDasharray": "stroke-dasharray",
+  "strokeDashoffset": "stroke-dashoffset",
+  "strokeLinecap": "stroke-linecap",
+  "strokeLinejoin": "stroke-linejoin",
+  "strokeMiterlimit": "stroke-miterlimit",
+  "strokeOpacity": "stroke-opacity",
+  "strokeWidth": "stroke-width",
+  "stroke": "stroke",
+  "textAnchor": "text-anchor",
+  "textDecoration": "text-decoration",
+  "textRendering": "text-rendering",
+  "unicodeBidi": "unicode-bidi",
+  "visibility": "visibility",
+  "wordSpacing": "word-spacing",
+  "writingMode": "writing-mode"
+};
+
+},{}],6:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -591,7 +900,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":7}],6:[function(require,module,exports){
+},{"./version":8}],7:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -600,7 +909,7 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":7}],7:[function(require,module,exports){
+},{"./version":8}],8:[function(require,module,exports){
 module.exports = "1"
 
 },{}]},{},[1])(1)
