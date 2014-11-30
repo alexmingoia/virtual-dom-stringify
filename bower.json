@@ -15,7 +15,9 @@
   ],
   "dependencies": {
     "he": "^0.5.0",
-    "vtree": "git://github.com/Matt-Esch/vtree#v0.0.21"
+    "html-attributes": "git://github.com/alexmingoia/html-attributes#v1.1.0",
+    "svg-attributes": "git://github.com/alexmingoia/svg-attributes#v1.0.0",
+    "vtree": "git://github.com/Matt-Esch/vtree#v0.0.22"
   },
   "license": "BSD",
   "ignore": [
