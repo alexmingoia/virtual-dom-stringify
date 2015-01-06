@@ -36,14 +36,13 @@
     "gulp-rename": "^1.2.0",
     "jshint-stylish": "^1.0.0",
     "phantomjs": "^1.9.7-15",
-    "vinyl-source-stream": "^1.0.0",
-    "virtual-hyperscript": "^4.6.0"
+    "vinyl-source-stream": "^1.0.0"
   },
   "dependencies": {
     "he": "^0.5.0",
     "html-attributes": "^1.1.0",
     "param-case": "^1.0.1",
     "svg-attributes": "^1.0.0",
-    "vtree": "0.0.22"
+    "virtual-dom": "^1.0.0"
   }
 }
