@@ -152,6 +152,14 @@ describe('stringify()', function() {
       expect(html).to.be.a('string');
       expect(html).to.equal('<div testAttribute="test"></div>');
     });
+    it('outputs invalid attributes in children', function () {
+      var vnode = new VirtualNode('div', { 'testAttribute': 'test' }, [ new VirtualNode('div', { nestedInvalid: 'nested' }, []) ]);
+      var html = stringify(vnode, {
+        invalidAttributes: true
+      });
+      expect(html).to.be.a('string');
+      expect(html).to.equal('<div testAttribute="test"><div nestedInvalid="nested"></div></div>');
+    });
   });
 
   describe('options.validAttributes', function () {
