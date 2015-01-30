@@ -36,6 +36,7 @@
     "gulp-rename": "^1.2.0",
     "jshint-stylish": "^1.0.0",
     "phantomjs": "^1.9.7-15",
+    "vdom-thunk": "^3.0.0",
     "vinyl-source-stream": "^1.0.0"
   },
   "dependencies": {

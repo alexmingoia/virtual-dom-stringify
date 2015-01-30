@@ -2,6 +2,7 @@ var expect = require('expect.js');
 var h = require('virtual-dom/h');
 var VirtualNode = require('virtual-dom/vnode/vnode');
 var VirtualText = require('virtual-dom/vnode/vtext');
+var VirtualThunk = require('vdom-thunk');
 var svg = require('virtual-dom/virtual-hyperscript/svg');
 var stringify = require('..');
 
@@ -9,6 +10,24 @@ describe('stringify()', function() {
   it('returns string', function() {
     var vnode = h('div');
     var html = stringify(vnode);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<div></div>');
+  });
+
+  it('serializes unrendered thunks', function () {
+    var vthunk = VirtualThunk(function () {
+      return h('div')
+    });
+    var html = stringify(vthunk);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<div></div>');
+  });
+
+  it('serializes rendered thunks', function () {
+    var vthunk = VirtualThunk(function () {
+      return h('div')
+    }).render();
+    var html = stringify(vthunk);
     expect(html).to.be.a('string');
     expect(html).to.equal('<div></div>');
   });
