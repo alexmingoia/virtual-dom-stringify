@@ -2,7 +2,7 @@
   "name": "virtual-dom-stringify",
   "version": "2.0.0",
   "description": "Stringify virtual-dom trees into HTML.",
-  "main": "index.js",
+  "main": "lib/stringify.js",
   "files": [
     "dist",
     "lib"
