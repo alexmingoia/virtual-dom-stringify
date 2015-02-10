@@ -32,17 +32,6 @@ describe('stringify()', function() {
     expect(html).to.equal('<div></div>');
   });
 
-  it('serializes valid vnode.properties', function() {
-    var vnode = new VirtualNode('div', {
-      'id': "test",
-      'class': "testClass",
-      'invalid': "test"
-    });
-    var html = stringify(vnode);
-    expect(html).to.be.a('string');
-    expect(html).to.equal('<div id="test" class="testClass"></div>');
-  });
-
   it('outputs "class" for "class" property', function() {
     var vnode = new VirtualNode('div', {
       'class': "small"
@@ -143,30 +132,11 @@ describe('stringify()', function() {
     expect(html).to.equal('<svg viewBox="0 0 24 24"><path d="M3,18h18v-2H3V18z M3,13h18v-2H3V13z M3,6v2h18V6H3z"></path></svg>');
   });
 
-  describe('options.invalidAttributes', function () {
-    it('outputs invalid attributes', function () {
-      var vnode = new VirtualNode('div', { 'testAttribute': 'test' }, []);
-      var html = stringify(vnode, {
-        invalidAttributes: true
-      });
-      expect(html).to.be.a('string');
-      expect(html).to.equal('<div testAttribute="test"></div>');
-    });
-    it('outputs invalid attributes in children', function () {
-      var vnode = new VirtualNode('div', { 'testAttribute': 'test' }, [ new VirtualNode('div', { nestedInvalid: 'nested' }, []) ]);
-      var html = stringify(vnode, {
-        invalidAttributes: true
-      });
-      expect(html).to.be.a('string');
-      expect(html).to.equal('<div testAttribute="test"><div nestedInvalid="nested"></div></div>');
-    });
-  });
-
-  describe('options.validAttributes', function () {
+  describe('options.attributes', function () {
     it('dictates which attributes are valid', function () {
       var vnode = new VirtualNode('div', { 'testAttribute': 'test' }, []);
       var html = stringify(vnode, {
-        validAttributes: {
+        attributes: {
           'testAttribute': 'test-attribute'
         }
       });
