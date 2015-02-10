@@ -5,7 +5,7 @@
 Stringify [virtual-dom][0] trees into HTML. For parsing DOM nodes into a
 virtual-dom tree use [vnode-virtualize][1].
 
-## Installation
+{{#module name="virtual-dom-stringify"}}{{>body}}{{/module}}## Installation
 
 Using [npm](https://www.npmjs.org/):
 
@@ -20,27 +20,12 @@ bower install --save virtual-dom-stringify
 ```
 
 ## API Reference
-<a name="exp_module_virtual-dom-stringify--module.exports"></a>
-### module.exports(node, parent, [options]) ⇒ <code>String</code> ⏏
-Stringify given virtual dom tree and return html.
+{{#module name="virtual-dom-stringify"~}}
+  {{>body~}}
+  {{>member-index~}}
+  {{>members~}}
+{{/module~}}
 
-
-| Param | Type | Description |
-| --- | --- | --- |
-| node | <code>VirtualNode</code> |  |
-| parent | <code>VirtualNode</code> |  |
-| [options] | <code>Object</code> |  |
-| [options.selfClosingTags] | <code>Array.&lt;String&gt;</code> | tags that are self-closing |
-| [options.attributes] | <code>Object.&lt;String, String&gt;</code> | map of attribute names where keys are camelCased name and values are the HTML attribute name. |
-
-**Example**  
-```javascript
-var VirtualNode = require('vtree/vnode');
-var stringify = require('virtual-dom-stringify');
-
-stringify(new VirtualNode('div'));
-// => "<div></div>"
-```
 ## Contributing
 
 Please submit all issues and pull requests to the [alexmingoia/virtual-dom-stringify](http://github.com/alexmingoia/virtual-dom-stringify) repository!

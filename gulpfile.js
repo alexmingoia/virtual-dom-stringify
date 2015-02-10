@@ -1,7 +1,9 @@
 var Browserify = require('browserify')
   , clean = require('gulp-clean')
+  , fs = require('fs')
   , gulp = require('gulp')
   , instrument = require('gulp-instrument')
+  , jsdoc2md = require('jsdoc-to-markdown')
   , jshint = require('gulp-jshint')
   , mochaPhantomJS = require('gulp-mocha-phantomjs')
   , rename = require('gulp-rename')
@@ -25,7 +27,7 @@ gulp.task('instrument', function() {
     .pipe(gulp.dest('lib-cov'));
 });
 
-gulp.task('standalone', function() {
+gulp.task('wrap-umd', function() {
   var bundler = new Browserify({
     standalone: 'vtreeStringify'
   });
@@ -35,6 +37,22 @@ gulp.task('standalone', function() {
     .pipe(source('virtual-dom-stringify.js'))
     .pipe(gulp.dest('dist'));
 });
+
+gulp.task('docs', function () {
+  var src = 'lib/*.js';
+  var dest = 'README.md';
+  var options = {
+    template: 'lib/README_tpl.hbs'
+  };
+
+  jsdoc2md.render(src, options)
+    .on('error', function(err){
+      console.log(err);
+    })
+    .pipe(fs.createWriteStream(dest));
+});
+
+gulp.task('dist', ['wrap-umd', 'docs']);
 
 gulp.task('browserify-tests', function() {
   var bundler = new Browserify();
