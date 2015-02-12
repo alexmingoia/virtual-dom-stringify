@@ -111,7 +111,7 @@ module.exports = function stringify (node, parent, options) {
     }
   }
   else if (isVText(node)) {
-    if (parent && parent.tagName === 'script') {
+    if (parent && parent.tagName.toLowerCase() === 'script') {
       html.push(String(node.text));
     } else {
       html.push(encode(String(node.text)));
