@@ -100,8 +100,8 @@ describe('stringify()', function() {
   });
 
   it('does not encode script tag contents', function() {
-    var vnode = new VirtualNode('div', null, [
-      new VirtualNode('script', null, [new VirtualText('console.log("foobar");')])
+    var vnode = h('div', [
+      h('script', 'console.log("foobar");')
     ]);
     var html = stringify(vnode);
     expect(html).to.be.a('string');
