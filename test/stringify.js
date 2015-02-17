@@ -5,6 +5,7 @@ var VirtualText = require('virtual-dom/vnode/vtext');
 var VirtualThunk = require('vdom-thunk');
 var svg = require('virtual-dom/virtual-hyperscript/svg');
 var stringify = require('..');
+var noop = function () {};
 
 describe('stringify()', function() {
   it('returns string', function() {
@@ -19,6 +20,15 @@ describe('stringify()', function() {
       return h('div')
     });
     var html = stringify(vthunk);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<div></div>');
+  });
+
+  it('does not stringify functions', function () {
+    var vnode = h('div', {
+      'ev-click': noop
+    });
+    var html = stringify(vnode);
     expect(html).to.be.a('string');
     expect(html).to.equal('<div></div>');
   });
