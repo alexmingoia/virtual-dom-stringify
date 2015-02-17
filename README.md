@@ -32,6 +32,7 @@ Stringify given virtual dom tree and return html.
 | [options] | <code>Object</code> |  |
 | [options.selfClosingTags] | <code>Array.&lt;String&gt;</code> | tags that are self-closing |
 | [options.attributes] | <code>Object.&lt;String, String&gt;</code> | map of attribute names where keys are camelCased name and values are the HTML attribute name. |
+| [options.asciiSafe] | <code>Boolean</code> | encode non-ASCII symbols (default: false) |
 
 **Example**  
 ```javascript

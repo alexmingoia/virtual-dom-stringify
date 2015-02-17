@@ -1,5 +1,5 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.vtreeStringify=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var encode = require('he').encode;
+var he = require('he');
 var isVNode = require('virtual-dom/vnode/is-vnode');
 var isVText = require('virtual-dom/vnode/is-vtext');
 var isThunk = require('virtual-dom/vnode/is-thunk');
@@ -31,6 +31,7 @@ var selfClosingTags = require('./self-closing-tags');
  * @param {Array.<String>=} options.selfClosingTags tags that are self-closing
  * @param {Object.<String, String>=} options.attributes map of attribute names
  * where keys are camelCased name and values are the HTML attribute name.
+ * @param {Boolean=} options.asciiSafe encode non-ASCII symbols (default: false)
  * @returns {String}
  * @alias module:virtual-dom-stringify
  */
@@ -52,6 +53,8 @@ module.exports = function stringify (node, parent, options) {
   if (!options.attributes) {
     options.attributes = merge(htmlAttrs, svgAttrs);
   }
+
+  var encode = options.asciiSafe ? he.encode : he.escape;
 
   if (isThunk(node)) {
     node = (node.vnode || node.render());
