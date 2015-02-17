@@ -82,7 +82,7 @@ module.exports = function stringify (node, parent, options) {
             attributes.push(prop + '="' + css.join(' ') + '"');
           } else if (attrVal === "true" || attrVal === true) {
             attributes.push(prop);
-          } else {
+          } else if (typeof attrVal !== 'function') {
             attributes.push(prop + '="' + encode(String(attrVal)) + '"');
           }
         }
