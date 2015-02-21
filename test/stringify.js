@@ -142,6 +142,13 @@ describe('stringify()', function() {
     expect(html).to.equal('<svg viewBox="0 0 24 24"><path d="M3,18h18v-2H3V18z M3,13h18v-2H3V13z M3,6v2h18V6H3z"></path></svg>');
   });
 
+  it('renders custom attributes', function () {
+    var vnode = new VirtualNode('div', { 'custom-attribute': 'test' }, []);
+    var html = stringify(vnode);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<div custom-attribute="test"></div>');
+  });
+
   describe('options.attributes', function () {
     it('dictates which attributes are valid', function () {
       var vnode = new VirtualNode('div', { 'testAttribute': 'test' }, []);
