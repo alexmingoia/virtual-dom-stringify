@@ -1,7 +1,7 @@
 {
   "name": "virtual-dom-stringify",
   "main": "lib/stringify.js",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "homepage": "https://github.com/alexmingoia/virtual-dom-stringify",
   "authors": [
     "Alex Mingoia <talk@alexmingoia.com>"
@@ -17,8 +17,8 @@
     "he": "^0.5.0",
     "html-attributes": "git://github.com/alexmingoia/html-attributes#v1.1.0",
     "svg-attributes": "git://github.com/alexmingoia/svg-attributes#v1.0.0",
-    "virtual-dom": "git://github.com/Matt-Esch/virtual-dom#v1.0.0",
-    "param-case": "git://github.com/blakeembrey/param-case#1.0.1"
+    "virtual-dom": "git://github.com/Matt-Esch/virtual-dom#v2.0.3",
+    "param-case": "git://github.com/blakeembrey/param-case#1.1.1"
   },
   "license": "BSD",
   "ignore": [

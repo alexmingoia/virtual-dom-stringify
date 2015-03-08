@@ -24,6 +24,7 @@ bower install --save virtual-dom-stringify
 ### module.exports(node, parent, [options]) ⇒ <code>String</code> ⏏
 Stringify given virtual dom tree and return html.
 
+**Kind**: Exported function  
 
 | Param | Type | Description |
 | --- | --- | --- |
