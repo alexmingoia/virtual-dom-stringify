@@ -2,8 +2,13 @@
 
 [![NPM version](http://img.shields.io/npm/v/virtual-dom-stringify.svg?style=flat)](https://npmjs.org/package/virtual-dom-stringify) [![NPM Downloads](https://img.shields.io/npm/dm/virtual-dom-stringify.svg?style=flat)](https://npmjs.org/package/virtual-dom-stringify) [![Build Status](http://img.shields.io/travis/alexmingoia/virtual-dom-stringify.svg?style=flat)](http://travis-ci.org/alexmingoia/virtual-dom-stringify) [![Tips](https://img.shields.io/gratipay/alexmingoia.svg?style=flat)](https://www.gratipay.com/alexmingoia/)
 
-Stringify [virtual-dom][0] trees into HTML. For parsing DOM nodes into a
+> Stringify [virtual-dom][0] trees into HTML. For parsing DOM nodes into a
 virtual-dom tree use [vnode-virtualize][1].
+
+## Deprecated
+
+This module is deprecated. Use
+[vdom-to-html](https://github.com/nthtran/vdom-to-html/).
 
 ## Installation
 
@@ -24,7 +29,7 @@ bower install --save virtual-dom-stringify
 ### module.exports(node, parent, [options]) ⇒ <code>String</code> ⏏
 Stringify given virtual dom tree and return html.
 
-**Kind**: Exported function  
+**Kind**: Exported function
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -35,7 +40,7 @@ Stringify given virtual dom tree and return html.
 | [options.attributes] | <code>Object.&lt;String, String&gt;</code> | map of attribute names where keys are camelCased name and values are the HTML attribute name. |
 | [options.asciiSafe] | <code>Boolean</code> | encode non-ASCII symbols (default: false) |
 
-**Example**  
+**Example**
 ```javascript
 var VirtualNode = require('vtree/vnode');
 var stringify = require('virtual-dom-stringify');
