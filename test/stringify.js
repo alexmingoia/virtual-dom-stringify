@@ -128,6 +128,18 @@ describe('stringify()', function() {
     expect(html).to.equal('<div><p>hello world</p></div>');
   });
 
+  it('ignores svg namespaces', function() {
+    var vnode = svg('svg', null, [
+      svg('use', {
+        'xlink:href': '/icons.svg#icon-name'
+      })
+    ]);
+
+    var html = stringify(vnode);
+    expect(html).to.be.a('string');
+    expect(html).to.equal('<svg><use xlink:href="/icons.svg#icon-name"></use></svg>');
+  });
+
   it('serializes svg attributes', function() {
     var vnode = svg('svg', {
       viewBox: '0 0 24 24'
