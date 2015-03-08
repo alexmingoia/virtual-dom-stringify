@@ -30,25 +30,25 @@
   },
   "homepage": "https://github.com/alexmingoia/virtual-dom-stringify",
   "devDependencies": {
-    "browserify": "^6.3.3",
+    "browserify": "^9.0.3",
     "expect.js": "^0.3.1",
-    "gulp": "^3.8.7",
+    "gulp": "^3.8.11",
     "gulp-clean": "^0.3.1",
     "gulp-instrument": "^0.1.0",
-    "gulp-jshint": "^1.8.4",
+    "gulp-jshint": "^1.9.2",
     "gulp-mocha-phantomjs": "^0.5.0",
     "gulp-rename": "^1.2.0",
-    "jsdoc-to-markdown": "^0.6.3",
-    "jshint-stylish": "^1.0.0",
-    "phantomjs": "^1.9.7-15",
+    "jsdoc-to-markdown": "^0.6.4",
+    "jshint-stylish": "^1.0.1",
+    "phantomjs": "^1.9.16",
     "vdom-thunk": "^3.0.0",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "he": "^0.5.0",
     "html-attributes": "^1.1.0",
-    "param-case": "^1.0.1",
+    "param-case": "^1.1.1",
     "svg-attributes": "^1.0.0",
-    "virtual-dom": "^1.0.0"
+    "virtual-dom": "^2.0.1"
   }
 }
